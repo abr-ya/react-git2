@@ -1,6 +1,6 @@
 import App from '../App';
 import {connect} from 'react-redux';
-import {add, addNum} from '../actions/actions';
+import {add, addNum} from '../actions/countActions';
 
 // переносим State (или его часть) в props компонента
 const mapStateToProps = state => ({

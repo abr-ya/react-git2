@@ -4,7 +4,7 @@ const initialState = {
     counter: 0,
 }
 
-export default function rootReducer(state = initialState, action) {
+export default function countReducer(state = initialState, action) {
     switch(action.type) {
         case ADD:
             return {
