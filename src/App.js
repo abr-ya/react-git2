@@ -13,12 +13,14 @@ import {GithubState} from './context/github/GithubState';
 
 const App = (props) => {
   const {
+    counter,
+    alert,
+    github,
     add,
     addNum,
-    counter,
     showAlert,
     hideAlert,
-    alert,
+    getUsers,
   } = props;
 
   return (
@@ -49,8 +51,16 @@ const App = (props) => {
             <div className="Actions">
               <button onClick={add}>Добавить 1</button>
               <button onClick={() => {addNum(10)}}>Добавить 10</button>
+
               <button onClick={() => {showAlert('Текст сообщения!', 'success')}}>Показать</button>
               <button onClick={hideAlert}>Скрыть</button>
+
+              <button onClick={() => {getUsers('dan')}}>Получить пользователей</button>
+
+              { github.loading
+                  ? 'загрузка'
+                  : 'пользователи готовы!'
+              }
             </div>             
           </div>
           
