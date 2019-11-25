@@ -1,12 +1,13 @@
-import React, {useContext} from 'react';
-import './Alert.scss';
-import {AlertContext} from '../../context/alert/alertContext';
+import React from 'react';
 
-// ничего не принимаем в параметрах - работаем с контекстом
-export const Alert = () => {
-    const {alert, hideAlert} = useContext(AlertContext)
-
-    if (!alert) return null;
+// в новой версии текст и сообщение таки в пропсах!)
+export const Alert = (props) => {
+    const {
+        hideAlert,
+        alert,
+      } = props;
+    //console.log(alert);
+    //console.log(hideAlert);
 
     return (
         <div className={`alert alert-${alert.type || 'secondary'} alert-dismissible`} role="alert">

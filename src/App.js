@@ -8,7 +8,6 @@ import {Home} from './pages/Home';
 import {About} from './pages/About';
 import {Profile} from './pages/Profile';
 
-import {AlertState} from './context/alert/alertState';
 import {GithubState} from './context/github/GithubState';
 
 
@@ -16,18 +15,24 @@ const App = (props) => {
   const {
     add,
     addNum,
-    counter
+    counter,
+    showAlert,
+    hideAlert,
+    alert,
   } = props;
 
   return (
     <GithubState>
-      <AlertState>
         <BrowserRouter>
           <div className="container">
             <Nav />
           </div>
           <div className="container App pt-4">
-            <Alert />
+            { alert.display
+                ? <Alert alert={alert} hideAlert={hideAlert} />
+                : null
+            }
+            
             <Switch>
               <Route path="/" exact component={Home} />
               <Route path="/about" component={About} />
@@ -44,12 +49,13 @@ const App = (props) => {
             <div className="Actions">
               <button onClick={add}>Добавить 1</button>
               <button onClick={() => {addNum(10)}}>Добавить 10</button>
+              <button onClick={() => {showAlert('Текст сообщения!', 'success')}}>Показать</button>
+              <button onClick={hideAlert}>Скрыть</button>
             </div>             
           </div>
           
 
         </BrowserRouter>
-      </AlertState>      
     </GithubState>
 
             

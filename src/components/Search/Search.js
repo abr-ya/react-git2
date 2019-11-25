@@ -1,12 +1,13 @@
 import React, {useContext, useState} from 'react';
 import './Search.scss';
-import {AlertContext} from '../../context/alert/alertContext';
 import {GithubContext} from '../../context/github/githubContext';
 
-export const Search = () => {
-    const [value, setValue] = useState('');
+export const Search = (props) => {
+    // берем из свойств, которые из контейнера
+    const {showAlert, hideAlert} = props;
 
-    const {showAlert, hideAlert} = useContext(AlertContext);
+    const [value, setValue] = useState('');
+    
     const github = useContext(GithubContext);
 
     const onSubmit = (event) => {

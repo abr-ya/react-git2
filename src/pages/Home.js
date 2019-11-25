@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {Search} from '../components/Search/Search';
+import Search from '../containers/searchContainer';
 import {Card} from '../components/Card/Card';
 import {GithubContext} from '../context/github/githubContext';
 
