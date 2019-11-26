@@ -1,6 +1,7 @@
 import {Search} from '../components/Search/Search';
 import {connect} from 'react-redux';
 import {showAlert, hideAlert} from '../actions/alertActions';
+import {getUsers, clearUsers} from '../actions/githubActions';
 
 // переносим State (или его часть) в props компонента
 const mapStateToProps = state => ({
@@ -11,6 +12,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   showAlert,
   hideAlert,
+  getUsers,
+  clearUsers,
 }
 
 // связываем компонент с Redux Store

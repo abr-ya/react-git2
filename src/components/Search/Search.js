@@ -1,14 +1,19 @@
-import React, {useContext, useState} from 'react';
+import React, {useState} from 'react';
 import './Search.scss';
-import {GithubContext} from '../../context/github/githubContext';
+//import {GithubContext} from '../../context/github/githubContext';
 
 export const Search = (props) => {
     // берем из свойств, которые из контейнера
-    const {showAlert, hideAlert} = props;
+    const {
+        showAlert,
+        hideAlert,
+        getUsers,
+        clearUsers,
+    } = props;
 
     const [value, setValue] = useState('');
     
-    const github = useContext(GithubContext);
+    //const github = useContext(GithubContext);
 
     const onSubmit = (event) => {
         // если нажат не Enter - делаем ничего!))
@@ -17,12 +22,14 @@ export const Search = (props) => {
         }
 
         // чистим результат прошлого запроса
-        github.clearUsers();
+        //github.clearUsers();
+        clearUsers();
 
         // если есть запрос
         if (value.trim()) {
             hideAlert();
-            github.search(value.trim());
+            //github.search(value.trim());
+            getUsers(value.trim());
         } else {
             showAlert('Введите данные для поиска!', 'danger');
         }

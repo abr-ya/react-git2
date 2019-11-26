@@ -21,6 +21,9 @@ const App = (props) => {
     showAlert,
     hideAlert,
     getUsers,
+    clearUsers,
+    getUser,
+    getRepos,
   } = props;
 
   return (
@@ -36,15 +39,17 @@ const App = (props) => {
             }
             
             <Switch>
-              <Route path="/" exact component={Home} />
+              <Route path="/" exact component={() => (<Home github={github} />)} />
               <Route path="/about" component={About} />
-              <Route path="/profile/:name" component={Profile} />
+              <Route path="/profile/:name" component={(match) => (
+                <Profile github={github} getUser={getUser} getRepos={getRepos} match={match} />
+              )} />
               <Redirect to="/" />
             </Switch>
           </div>
 
           <div className="App-old">
-            <h1>Управляем числом: {counter}</h1>
+            <h1>тестируем тут: {counter}</h1>
 
             <hr/>
 
@@ -61,6 +66,11 @@ const App = (props) => {
                   ? 'загрузка'
                   : 'пользователи готовы!'
               }
+
+              <button onClick={clearUsers}>Почистить</button>
+
+              <button onClick={() => {getUser('fff')}}>Получить пользователя</button>
+              <button onClick={() => {getRepos('fff')}}>Получить репозитории</button>
             </div>             
           </div>
           

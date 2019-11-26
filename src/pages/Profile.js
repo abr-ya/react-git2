@@ -3,9 +3,10 @@ import {GithubContext} from '../context/github/githubContext';
 import {Link} from 'react-router-dom';
 import {Repos} from '../components/Repos/Repos';
 
-export const Profile = ({match}) => {
+export const Profile = (props) => {
     const {getUser, getRepos, loading, user, repos} = useContext(GithubContext);
-    const urlName = match.params.name;
+    //console.log(props);
+    const urlName = props.match.match.params.name;
 
     // после отрисовки
     // эффект и список зависимостей, пустой массив - выполнится один раз

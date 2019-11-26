@@ -1,8 +1,10 @@
-import {GET_USERS} from '../actions/actionTypes';
+import {GET_USERS, CLEAR_USERS, GET_USER, GET_REPOS, SET_LOADING} from '../actions/actionTypes';
 
 const initialState = {
     users: [],
-    loading: true,
+    user: {},
+    repos: [],
+    loading: false,
 }
 
 export default function githubReducer(state = initialState, action) {
@@ -10,8 +12,30 @@ export default function githubReducer(state = initialState, action) {
         case GET_USERS:
             return {
                 ...state,
-                users: action.users,
-                loading: action.loading,
+                users: action.payload,
+                loading: false,
+            }
+        case CLEAR_USERS:
+            return {
+                ...state,
+                users: [],
+            }
+        case GET_USER:
+            return {
+                ...state,
+                user: action.payload,
+                loading: false,
+            }
+        case GET_REPOS:
+            return {
+                ...state,
+                repos: action.payload,
+                loading: false,
+            }
+        case SET_LOADING:
+            return {
+                ...state,
+                loading: true,
             }
         default:
             return state;

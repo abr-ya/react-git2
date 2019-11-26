@@ -1,11 +1,15 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import Search from '../containers/searchContainer';
 import {Card} from '../components/Card/Card';
-import {GithubContext} from '../context/github/githubContext';
+//import {GithubContext} from '../context/github/githubContext';
 
 
-export const Home = () => {
-    const {loading, users} = useContext(GithubContext)
+export const Home = (props) => {
+    console.log(props.github);
+    //const {loading, users} = useContext(GithubContext);
+    const {loading, users} = props.github;
+
+    console.log(users.length);
 
     return (
         <div>
