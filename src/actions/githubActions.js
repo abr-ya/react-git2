@@ -4,7 +4,7 @@ import axios from 'axios';
 //создание и тест переменных окружения
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
 const CLIENT_SC = process.env.REACT_APP_CLIENT_SECRET;
-console.log(CLIENT_ID);
+//console.log(CLIENT_ID);
 
 // добавляем ключ API
 const withCreds = url => {
