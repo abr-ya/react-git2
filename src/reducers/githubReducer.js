@@ -3,7 +3,7 @@ import {GET_USERS, CLEAR_USERS, GET_USER, GET_REPOS, SET_LOADING} from '../actio
 const initialState = {
     users: [],
     user: {},
-    repos: [],
+    repos: {},
     loading: undefined,
 }
 
@@ -23,7 +23,6 @@ export default function githubReducer(state = initialState, action) {
         case GET_USER:
             return {
                 ...state,
-                //user: action.payload,
                 user: {
                     ...state.user,
                     [action.name]: action.payload,
@@ -33,8 +32,10 @@ export default function githubReducer(state = initialState, action) {
         case GET_REPOS:
             return {
                 ...state,
-                repos: action.payload,
-                loading: false,
+                repos: {
+                    ...state.repos,
+                    [action.name]: action.payload,
+                },
             }
         case SET_LOADING:
             return {

@@ -3,7 +3,7 @@ import './Card.scss';
 import {Link} from 'react-router-dom';
 
 
-export const Card = ({user}) => {
+const Card = ({user}) => {
     //console.log(user);
     return (
         <div className="card">
@@ -21,3 +21,5 @@ export const Card = ({user}) => {
         </div>
     )
 }
+
+export default Card;

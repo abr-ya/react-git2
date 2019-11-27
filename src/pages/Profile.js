@@ -1,23 +1,23 @@
 import React, {Fragment} from 'react';
-// import {GithubContext} from '../context/github/githubContext';
 import {Link} from 'react-router-dom';
-// import {Repos} from '../components/Repos/Repos';
+import {Repos} from '../components/Repos/Repos';
 import {User} from '../components/User/User';
 
 export const Profile = (props) => {
-    //const {getUser, getRepos, loading, user, repos} = useContext(GithubContext);
-    //console.log(props);
     const urlName = props.match.match.params.name;
 
-    //
-    console.log(props.github.loading);
+    // если мы тут случайно, или глюк, или - хорошо бы запросить данные!
     if (props.github.loading === undefined) {
-        return <p className="text-center">Что-то пошло не так!.. Совсем...</p>
+        return (
+            <Fragment>
+                <p className="text-center">Что-то пошло не так!.. Совсем...</p>
+            </Fragment>
+        )
     }
 
     // грузится или загрузилось?
     if (props.github.loading) {
-        return <p className="text-center">Загрузка...</p>
+        return (<p className="text-center">Загрузка...</p>)
     } else {
         const user = props.github.user[urlName];
         return (
@@ -27,9 +27,8 @@ export const Profile = (props) => {
 
                 <User user={user} />
 
-                {/* <Repos repos={repos} /> */}
+                <Repos repos={props.github.repos} name={user.login} />
             </Fragment>
         )
-    }
-    
+    } 
 }

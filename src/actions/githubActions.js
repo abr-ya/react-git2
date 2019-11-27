@@ -52,7 +52,7 @@ export const getUser = name => {
 // получаем репозитории пользователя
 export const getRepos = name => {
     return async (dispatch) => {
-        dispatch({type: SET_LOADING}) // лоадер
+        //dispatch({type: SET_LOADING}) // лоадер
         const response = await axios.get(
             withCreds(`https://api.github.com/users/${name}/repos?per_page=10&`)
         ); 
@@ -60,7 +60,8 @@ export const getRepos = name => {
         //console.log(response.data);
         dispatch({
             type: GET_REPOS,
-            payload: response.data
+            payload: response.data,
+            name,
         })         
     }        
 }
