@@ -1,11 +1,12 @@
 import React from 'react';
 import Search from '../containers/searchContainer';
 import Card from '../components/Card/Card';
-
+import Alert from '../components/Alert/Alert';
 
 export const Home = (props) => {
     //console.log(props.github);
     const {loading, users} = props.github;
+    const {alert, hideAlert} = props;
 
     const userClickHandler = (user) => {
         props.getUser(user);
@@ -15,6 +16,11 @@ export const Home = (props) => {
     return (
         <div>
             <h1>Поиск по пользователям GitHub</h1>
+
+            { alert.display
+                ? <Alert alert={alert} hideAlert={hideAlert} />
+                : null
+            }
 
             {/*В поиск функции передаём с помощью контейнера.*/}
             <Search />

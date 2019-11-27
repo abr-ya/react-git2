@@ -25,10 +25,10 @@ export const Search = (props) => {
         // если есть запрос
         if (value.trim()) {
             hideAlert();
-            showAlert(`Результат поиска по запросу ${value.trim()}.`, 'success');
+            showAlert(`Результат поиска по запросу "${value.trim()}".`, 'success');
             getUsers(value.trim());
         } else {
-            showAlert('Введите данные для поиска!', 'danger');
+            showAlert('Для поиска нужно вводить непустой запрос!', 'danger');
         }
     }
 

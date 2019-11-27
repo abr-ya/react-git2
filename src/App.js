@@ -2,11 +2,9 @@ import React from 'react';
 import './App.css';
 import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom';
 import {Nav} from './components/Nav/Nav';
-import {Alert} from './components/Alert/Alert';
 import {Home} from './pages/Home';
 import {About} from './pages/About';
 import {Profile} from './pages/Profile';
-
 
 const App = (props) => {
   const {
@@ -23,13 +21,10 @@ const App = (props) => {
         <Nav />
       </div>
       <div className="container App pt-4">
-        { alert.display
-            ? <Alert alert={alert} hideAlert={hideAlert} />
-            : null
-        }
-        
         <Switch>
-          <Route path="/" exact component={() => (<Home github={github} getUser={getUser} getRepos={getRepos} />)} />
+          <Route path="/" exact component={() => (
+            <Home alert={alert} github={github} getUser={getUser} getRepos={getRepos} hideAlert={hideAlert}/>
+          )} />
           <Route path="/about" component={About} />
           <Route path="/profile/:name" component={(match) => (
             <Profile github={github} getUser={getUser} match={match} />

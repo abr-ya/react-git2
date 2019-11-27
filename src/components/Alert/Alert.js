@@ -1,7 +1,7 @@
 import React from 'react';
 
 // в новой версии текст и сообщение таки в пропсах!)
-export const Alert = (props) => {
+const Alert = (props) => {
     const {
         hideAlert,
         alert,
@@ -18,3 +18,5 @@ export const Alert = (props) => {
         </div>
     )
 }
+
+export default Alert;
