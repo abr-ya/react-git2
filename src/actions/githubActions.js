@@ -44,6 +44,7 @@ export const getUser = name => {
         dispatch({
             type: GET_USER,
             payload: response.data,
+            name,
         }) 
     }   
 }

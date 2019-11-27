@@ -4,7 +4,7 @@ const initialState = {
     users: [],
     user: {},
     repos: [],
-    loading: false,
+    loading: undefined,
 }
 
 export default function githubReducer(state = initialState, action) {
@@ -23,7 +23,11 @@ export default function githubReducer(state = initialState, action) {
         case GET_USER:
             return {
                 ...state,
-                user: action.payload,
+                //user: action.payload,
+                user: {
+                    ...state.user,
+                    [action.name]: action.payload,
+                },
                 loading: false,
             }
         case GET_REPOS:

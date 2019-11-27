@@ -21,7 +21,7 @@ export const Home = (props) => {
                 {loading
                     ? <p className="text-center">Загрузка...</p>
                     :   users.map(user => (
-                        <div className="col-lg-3 col-md-4 col-sm-6 mb-4" key={user.id}>
+                        <div className="col-lg-3 col-md-4 col-sm-6 mb-4" key={user.id} onClick={() => props.getUser(user.login)}>
                             <Card user={user} />
                         </div>   
                     ))

@@ -39,7 +39,7 @@ const App = (props) => {
             }
             
             <Switch>
-              <Route path="/" exact component={() => (<Home github={github} />)} />
+              <Route path="/" exact component={() => (<Home github={github} getUser={getUser} />)} />
               <Route path="/about" component={About} />
               <Route path="/profile/:name" component={(match) => (
                 <Profile github={github} getUser={getUser} getRepos={getRepos} match={match} />
