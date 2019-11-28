@@ -1,13 +1,11 @@
 import React, {Fragment} from 'react';
 
-export const Repos = (props) => {
-    const {repos, name} = props;
-
+export const Repos = ({repos, urlName}) => {
     // когда репозитории пользователя есть - покажем их!
-    if (repos[name]) {
+    if (repos[urlName]) {
         return (
             <Fragment>
-                {repos[name].map(repo => (
+                {repos[urlName].map(repo => (
                     <div className="card mb-3" key={repo.id}>
                         <div className="card-body">
                             <h5 className="card-title">
@@ -15,12 +13,15 @@ export const Repos = (props) => {
                                     {repo.name}
                                 </a>
                             </h5>
+                            {repo.language && <p>language: {repo.language}</p>}
+                            <p>stars: {repo.stargazers_count}</p>
+                            <p>forks: {repo.forks_count}</p>
                         </div> 
                     </div>
                 ))}
             </Fragment>
         )
     } else {
-        return ('Здесь должен быть лоадер!..');
+        return (<p>Грузятся репозитории пользователя!..</p>);
     }
 }

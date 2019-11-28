@@ -4,7 +4,6 @@ import axios from 'axios';
 //создание и тест переменных окружения
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
 const CLIENT_SC = process.env.REACT_APP_CLIENT_SECRET;
-//console.log(CLIENT_ID);
 
 // добавляем ключ API
 const withCreds = url => {
@@ -52,7 +51,7 @@ export const getUser = name => {
 // получаем репозитории пользователя
 export const getRepos = name => {
     return async (dispatch) => {
-        //dispatch({type: SET_LOADING}) // лоадер
+        dispatch({type: SET_LOADING}) // лоадер
         const response = await axios.get(
             withCreds(`https://api.github.com/users/${name}/repos?per_page=10&`)
         ); 

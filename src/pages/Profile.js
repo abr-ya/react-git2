@@ -6,29 +6,26 @@ import {User} from '../components/User/User';
 export const Profile = (props) => {
     const urlName = props.match.match.params.name;
 
-    // если мы тут случайно, или глюк, или - хорошо бы запросить данные!
+    // если мы здесь, а ничего не грузим - запросить!
     if (props.github.loading === undefined) {
-        return (
-            <Fragment>
-                <p className="text-center">Что-то пошло не так!.. Совсем...</p>
-            </Fragment>
-        )
+        props.getUser(urlName);
+        props.getRepos(urlName);
+        return (<p>Здесь что-то происходит настолько быстро, что есть ли смысл в этом сообщении?</p>)
     }
 
-    // грузится или загрузилось?
-    if (props.github.loading) {
-        return (<p className="text-center">Загрузка...</p>)
-    } else {
-        const user = props.github.user[urlName];
-        return (
-            <Fragment>
-                <h1>{user.name} profile page</h1>
-                <Link to="/" className="btn btn-link">вернуться к результатам поиска</Link>
+    // раньше здесь была проверка, но теперь она лишняя - просто основной вывод
+    return (
+        <Fragment>
+            { props.github.user[urlName]
+                ? <h1>{props.github.user[urlName].name} profile page</h1>
+                : <h1>*имя пользователя* profile page</h1>
+            }
 
-                <User user={user} />
+            <Link to="/" className="btn btn-link">вернуться к результатам поиска</Link>
 
-                <Repos repos={props.github.repos} name={user.login} />
-            </Fragment>
-        )
-    } 
+            <User user={props.github.user} urlName={urlName} />
+
+            <Repos repos={props.github.repos} urlName={urlName} />
+        </Fragment>
+    )        
 }
