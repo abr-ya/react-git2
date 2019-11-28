@@ -1,4 +1,5 @@
 import React, {Fragment} from 'react';
+import Loader from '../Loader/Loader';
 
 export const Repos = ({repos, urlName}) => {
     // когда репозитории пользователя есть - покажем их!
@@ -22,6 +23,6 @@ export const Repos = ({repos, urlName}) => {
             </Fragment>
         )
     } else {
-        return (<p>Грузятся репозитории пользователя!..</p>);
+        return (<Loader />);
     }
 }

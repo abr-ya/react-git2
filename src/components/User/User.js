@@ -1,4 +1,5 @@
 import React, {Fragment} from 'react';
+import Loader from '../Loader/Loader';
 
 export const User = ({user, urlName}) => {
     // когда данные пользователя есть - покажем их!
@@ -63,6 +64,6 @@ export const User = ({user, urlName}) => {
             </div>
         )
     } else {
-        return (<p>Грузятся данные пользователя!..</p>);
+        return (<Loader />);
     }
 }
