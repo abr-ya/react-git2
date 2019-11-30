@@ -52,8 +52,9 @@ export const getUser = name => {
 export const getRepos = name => {
     return async (dispatch) => {
         dispatch({type: SET_LOADING}) // лоадер
+        // per_page=11& - для пагинации в запросе - она ушла на фронт
         const response = await axios.get(
-            withCreds(`https://api.github.com/users/${name}/repos?per_page=10&`)
+            withCreds(`https://api.github.com/users/${name}/repos?`)
         ); 
 
         //console.log(response.data);

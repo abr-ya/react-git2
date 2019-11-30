@@ -1,12 +1,21 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useState} from 'react';
 import Loader from '../Loader/Loader';
+import Pagination from '../Pagination/Pagination';
 
 export const Repos = ({repos, urlName}) => {
+    const [active, setActive] = useState(1);
     // когда репозитории пользователя есть - покажем их!
     if (repos[urlName]) {
+        const onPage = 5;
+        const pages = Math.ceil(repos[urlName].length / onPage);
+        const start = (active - 1) * onPage;
+        const stop = active * onPage; // без -1, т.к. slice не включает
+        const currentRepos = repos[urlName].slice(start, stop);
+        //console.log(currentRepos);
         return (
             <Fragment>
-                {repos[urlName].map(repo => (
+                <Pagination active={active} pages={pages} setActive={setActive} />            
+                {currentRepos.map(repo => (
                     <div className="card mb-3" key={repo.id}>
                         <div className="card-body">
                             <h5 className="card-title">
