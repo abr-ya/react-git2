@@ -14,9 +14,17 @@ export const Repos = ({repos, urlName}) => {
                                     {repo.name}
                                 </a>
                             </h5>
-                            {repo.language && <p>language: {repo.language}</p>}
-                            <p>stars: {repo.stargazers_count}</p>
-                            <p>forks: {repo.forks_count}</p>
+                            {repo.language &&
+                                <div className="badge badge-primary">
+                                    Язык: {repo.language}
+                                </div>                                
+                            }
+                            <div className="badge badge-success">
+                                stars: {repo.stargazers_count}
+                            </div>
+                            <div className="badge badge-info">
+                                forks: {repo.forks_count}
+                            </div>
                         </div> 
                     </div>
                 ))}
