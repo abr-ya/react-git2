@@ -18,7 +18,7 @@ export const getUsers = name => {
         const response = await axios.get(
             withCreds(`https://api.github.com/search/users?q=${name}&`)
         ); 
-        //console.log(response.data.items);
+
         dispatch ({
             type: GET_USERS,
             payload: response.data.items,
@@ -39,7 +39,6 @@ export const getUser = name => {
             withCreds(`https://api.github.com/users/${name}?`)
         ); 
 
-        //console.log(response.data);
         dispatch({
             type: GET_USER,
             payload: response.data,
@@ -57,7 +56,6 @@ export const getRepos = name => {
             withCreds(`https://api.github.com/users/${name}/repos?`)
         ); 
 
-        //console.log(response.data);
         dispatch({
             type: GET_REPOS,
             payload: response.data,

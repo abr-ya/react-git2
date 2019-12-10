@@ -27,7 +27,7 @@ const App = (props) => {
           )} />
           <Route path="/about" component={About} />
           <Route path="/profile/:name" component={(match) => (
-            <Profile github={github} getUser={getUser} getRepos={getRepos} match={match} />
+            <Profile github={github} getUser={getUser} getRepos={getRepos} />
           )} />
           <Redirect to="/" />
         </Switch>

@@ -4,10 +4,8 @@ import Loader from '../Loader/Loader';
 export const User = ({user, urlName}) => {
     // когда данные пользователя есть - покажем их!
     if (user[urlName]) {
-        //"развернём" юзера
         const {name, company, avatar_url, location, bio, blog,
-            login, html_url, followers, following,
-            public_repos, public_gists
+            login, html_url, followers, following, public_repos, public_gists
         } = user[urlName];
 
         return (

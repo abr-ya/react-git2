@@ -1,10 +1,10 @@
 import React, {Fragment} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import {Repos} from '../components/Repos/Repos';
 import {User} from '../components/User/User';
 
 export const Profile = (props) => {
-    const urlName = props.match.match.params.name;
+    const urlName = useParams().name;
 
     // если мы здесь, а ничего не грузим - запросить!
     if (props.github.loading === undefined) {
