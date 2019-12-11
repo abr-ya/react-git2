@@ -3,10 +3,10 @@ import Pagination from '../Pagination/Pagination';
 import ReposOnePage from '../ReposOnePage/ReposOnePage';
 import './Repos.scss';
 
-export const Repos = ({repos, fromParamsName}) => {
+export const Repos = ({repos}) => {
     const [active, setActive] = useState(1);
-    const [userRepos, setUserRepos] = useState(repos[fromParamsName]);
     const [pages, setPages] = useState(1);
+    const [userRepos, setUserRepos] = useState(repos);
     const [pageRepos, setPageRepos] = useState([]);    
 
     // подготовка страницы при пагинации
@@ -20,9 +20,9 @@ export const Repos = ({repos, fromParamsName}) => {
     }
 
     useEffect(() => {
-        setPageRepos(preparePage(repos[fromParamsName], 5, active).pageRepos);
-        setPages(preparePage(repos[fromParamsName], 5, active).pages);
-    }, [repos, fromParamsName, active]);
+        setPageRepos(preparePage(repos, 5, active).pageRepos);
+        setPages(preparePage(repos, 5, active).pages);
+    }, [repos, active]);
 
     // сортировка по звёздам - варианты в txt - это старая
     const sortByStars = (arr) => {
@@ -41,7 +41,7 @@ export const Repos = ({repos, fromParamsName}) => {
     return (
         userRepos ? (
             <Fragment>
-                <div className="badge badge-info" onClick={sortHandler}>sortByStars</div>
+                <div className="badge badge-info repos-badge" onClick={sortHandler}>sortByStars</div>
                 <Pagination active={active} pages={pages} setActive={setActive} />
                 <ReposOnePage pageRepos={pageRepos} />
             </Fragment>

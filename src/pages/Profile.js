@@ -27,10 +27,13 @@ export const Profile = (props) => {
 
             <Link to="/" className="btn btn-link">вернуться к результатам поиска</Link>
 
-            <User user={props.github.user} fromParamsName={fromParamsName} />
+            {props.github.user[fromParamsName]
+                ? (<User user={props.github.user[fromParamsName]} />)
+                : (<Loader />)
+            }
 
             {!isReposEmpty
-                ? (<Repos repos={props.github.repos} fromParamsName={fromParamsName} />)
+                ? (<Repos repos={props.github.repos[fromParamsName]} />)
                 : (<Loader />)
             }
         </Fragment>
