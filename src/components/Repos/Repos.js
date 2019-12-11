@@ -1,57 +1,52 @@
-import React, {Fragment, useState} from 'react';
-import Loader from '../Loader/Loader';
+import React, {Fragment, useState, useEffect} from 'react';
 import Pagination from '../Pagination/Pagination';
+import ReposOnePage from '../ReposOnePage/ReposOnePage';
+import './Repos.scss';
 
-function sortByStars(arr) {
-    arr.sort((a, b) => {
-        return (a.stargazers_count < b.stargazers_count) - (b.stargazers_count < a.stargazers_count);
-    });
-}
-
-export const Repos = ({repos, urlName}) => {
+export const Repos = ({repos, fromParamsName}) => {
     const [active, setActive] = useState(1);
-    const [reposUser, setRepos] = useState(repos[urlName]);
-    // когда репозитории пользователя есть - покажем их!
-    if (reposUser) {
-        console.log(reposUser);
-        //sortByStars(reposUser)
-        //console.log(reposUser);
+    const [userRepos, setUserRepos] = useState(repos[fromParamsName]);
+    const [pages, setPages] = useState(1);
+    const [pageRepos, setPageRepos] = useState([]);    
 
-        const onPage = 5;
-        const pages = Math.ceil(repos[urlName].length / onPage);
-        const start = (active - 1) * onPage;
-        const stop = active * onPage; // без -1, т.к. slice не включает
-        const pageRepos = reposUser.slice(start, stop);
-        //console.log(currentRepos);
-        return (
-            <Fragment>
-                <div className="badge badge-info" onClick={() => {sortByStars(reposUser); setRepos(reposUser)}}>sortByStars</div>
-                <Pagination active={active} pages={pages} setActive={setActive} />            
-                {pageRepos.map(repo => (
-                    <div className="card mb-3" key={repo.id}>
-                        <div className="card-body">
-                            <h5 className="card-title">
-                                <a href={repo.html_url} target="_blank" rel="noopener noreferrer">
-                                    {repo.name}
-                                </a>
-                            </h5>
-                            {repo.language &&
-                                <div className="badge badge-primary">
-                                    Язык: {repo.language}
-                                </div>                                
-                            }
-                            <div className="badge badge-success">
-                                stars: {repo.stargazers_count}
-                            </div>
-                            <div className="badge badge-info">
-                                forks: {repo.forks_count}
-                            </div>
-                        </div> 
-                    </div>
-                ))}
-            </Fragment>
-        )
-    } else {
-        return (<Loader />);
+    // подготовка страницы при пагинации
+    const preparePage = (userRepos, onPage, active) => {
+        const pages = Math.ceil(userRepos.length / onPage); // кол-во страниц
+        const pageRepos = userRepos.slice((active - 1) * onPage, active * onPage); // второй без -1, т.к. slice не включает
+        return ({
+            pageRepos,
+            pages,
+        })
     }
+
+    useEffect(() => {
+        setPageRepos(preparePage(repos[fromParamsName], 5, active).pageRepos);
+        setPages(preparePage(repos[fromParamsName], 5, active).pages);
+    }, [repos, fromParamsName, active]);
+
+    // сортировка по звёздам - варианты в txt - это старая
+    const sortByStars = (arr) => {
+        arr.sort((a, b) => {
+            return (a.stargazers_count < b.stargazers_count) - (b.stargazers_count < a.stargazers_count);
+        });
+    }
+
+    const sortHandler = () => {
+        sortByStars(userRepos);
+        setUserRepos(userRepos);
+        setPageRepos(preparePage(userRepos, 5, active).pageRepos);
+    }
+
+    // когда репозитории пользователя есть - покажем их!
+    return (
+        userRepos ? (
+            <Fragment>
+                <div className="badge badge-info" onClick={sortHandler}>sortByStars</div>
+                <Pagination active={active} pages={pages} setActive={setActive} />
+                <ReposOnePage pageRepos={pageRepos} />
+            </Fragment>
+        ) : (
+            "Что-то пошло не так: здесь должны быть репозитории, но их нет."
+        )
+    )
 }

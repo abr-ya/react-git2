@@ -1,12 +1,12 @@
 import React, {Fragment} from 'react';
 import Loader from '../Loader/Loader';
 
-export const User = ({user, urlName}) => {
+export const User = ({user, fromParamsName}) => {
     // когда данные пользователя есть - покажем их!
-    if (user[urlName]) {
+    if (user[fromParamsName]) {
         const {name, company, avatar_url, location, bio, blog,
             login, html_url, followers, following, public_repos, public_gists
-        } = user[urlName];
+        } = user[fromParamsName];
 
         return (
             <div className="card mb-4">
