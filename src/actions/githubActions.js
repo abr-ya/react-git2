@@ -52,13 +52,23 @@ export const getRepos = name => {
     return async (dispatch) => {
         dispatch({type: SET_LOADING}) // лоадер
         // per_page=11& - для пагинации в запросе - она ушла на фронт
-        const response = await axios.get(
-            withCreds(`https://api.github.com/users/${name}/repos?`)
-        ); 
-
+        let needGet = true;
+        const userRepos = [];
+        let pageCounter = 1;
+        while (needGet) {
+            const response = await axios.get(
+                withCreds(`https://api.github.com/users/${name}/repos?page=${pageCounter}&`)
+            );
+            //console.log(response.data.length);
+            userRepos.push(...response.data);
+            pageCounter ++;
+            if (!response.data.length) needGet = false;
+        }
+        //console.log(userRepos);
+ 
         dispatch({
             type: GET_REPOS,
-            payload: response.data,
+            payload: userRepos,
             name,
         })         
     }        
