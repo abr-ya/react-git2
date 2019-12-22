@@ -20,28 +20,45 @@ export const Repos = ({repos}) => {
     }
 
     useEffect(() => {
-        setPageRepos(preparePage(repos, 5, active).pageRepos);
-        setPages(preparePage(repos, 5, active).pages);
+        setPageRepos(preparePage(repos, 10, active).pageRepos);
+        setPages(preparePage(repos, 10, active).pages);
     }, [repos, active]);
 
     // сортировка по звёздам - варианты в txt - это старая
-    const sortByStars = (arr) => {
+    const sortBy = (arr, code, order='asc') => {
+        // eslint-disable-next-line
         arr.sort((a, b) => {
-            return (a.stargazers_count < b.stargazers_count) - (b.stargazers_count < a.stargazers_count);
+            // простая по-возростанию
+            if (order === 'asc') {
+                return (a[code] > b[code]) - (b[code] > a[code]);
+            // простая по-убыванию    
+            } else if (order === 'desc') {    
+                return (a[code] < b[code]) - (b[code] < a[code]);
+            // без учета регистра по возрастанию
+            } else if (order === 'str_asc') {
+                return (a[code].toLowerCase() > b[code].toLowerCase()) - (b[code].toLowerCase() > a[code].toLowerCase());
+            // без учета регистра по убыванию
+            } else if (order === 'str_desc') {
+                return (a[code].toLowerCase() < b[code].toLowerCase()) - (b[code].toLowerCase() < a[code].toLowerCase());
+            }
         });
     }
 
-    const sortHandler = () => {
-        sortByStars(userRepos);
+    const sortHandler = (code, order) => {
+        sortBy(userRepos, code, order);
         setUserRepos(userRepos);
-        setPageRepos(preparePage(userRepos, 5, active).pageRepos);
+        setPageRepos(preparePage(userRepos, 10, active).pageRepos);
     }
 
     // когда репозитории пользователя есть - покажем их!
     return (
         userRepos ? (
             <Fragment>
-                <div className="badge badge-info repos-badge" onClick={sortHandler}>sortByStars</div>
+                <div className="badge badge-info repos-badge" onClick={() => sortHandler('stargazers_count', 'desc')}>sortByStars</div>
+                <div className="badge badge-primary repos-badge" onClick={() => sortHandler('name')}>sortByName Up</div>
+                <div className="badge badge-primary repos-badge" onClick={() => sortHandler('name', 'desc')}>sortByName Down</div>
+                <div className="badge badge-info repos-badge" onClick={() => sortHandler('name', 'str_asc')}>sortByName Up ignoreCase</div>
+                <div className="badge badge-info repos-badge" onClick={() => sortHandler('name', 'str_desc')}>sortByName Down ignoreCase</div>
                 <Pagination active={active} pages={pages} setActive={setActive} />
                 <ReposOnePage pageRepos={pageRepos} />
             </Fragment>
