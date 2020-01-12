@@ -16,7 +16,7 @@ const App = (props) => {
   } = props;
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/demo/git2/">
       <div className="container">
         <Nav />
       </div>
