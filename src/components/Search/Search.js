@@ -1,47 +1,39 @@
 import React, {useState} from 'react';
-import './Search.scss';
+import './search.scss';
 
-export const Search = (props) => {
-    // берем из свойств, которые из контейнера
-    const {
-        showAlert,
-        hideAlert,
-        getUsers,
-        clearUsers,
-    } = props;
+const Search = ({showAlert, hideAlert, getUsers, clearUsers}) => {
+  // для текущего значения используем State
+  const [value, setValue] = useState('');
 
-    // для текущего значения используем State
-    const [value, setValue] = useState('');
-
-    const onSubmit = (event) => {
-        // если нажат не Enter - делаем ничего!))
-        if (event.key !== 'Enter') {
-            return 
-        }
-
-        // чистим результат прошлого запроса
-        clearUsers();
-
-        // если есть запрос
-        if (value.trim()) {
-            hideAlert();
-            showAlert(`Результат поиска по запросу "${value.trim()}".`, 'success');
-            getUsers(value.trim());
-        } else {
-            showAlert('Для поиска нужно вводить непустой запрос!', 'danger');
-        }
+  const onSubmit = (event) => {
+    // если нажат не Enter - делаем ничего!))
+    if (event.key !== 'Enter') {
+      return 
     }
+    clearUsers(); // чистим результат прошлого запроса
 
-    return (
-        <div className="form-group">
-            <input
-                type="text"
-                className="form-control"
-                placeholder="Введите ник или его часть для поиска"
-                value={value}
-                onChange={event => setValue(event.target.value)}
-                onKeyPress={onSubmit}
-            />
-        </div>
-    )
-}
+    // если есть запрос
+    if (value.trim()) {
+      hideAlert();
+      showAlert(`Результат поиска по запросу "${value.trim()}".`, 'success');
+      getUsers(value.trim());
+    } else {
+      showAlert('Для поиска нужно вводить непустой запрос!', 'danger');
+    }
+  };
+
+  return (
+    <div className="form-group">
+      <input
+        type="text"
+        className="form-control"
+        placeholder="Введите ник или его часть для поиска"
+        value={value}
+        onChange={event => setValue(event.target.value)}
+        onKeyPress={onSubmit}
+      />
+    </div>
+  )
+};
+
+export default Search;

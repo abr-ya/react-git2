@@ -4,15 +4,13 @@ import Card from '../components/Card/Card';
 import Alert from '../components/Alert/Alert';
 import Loader from '../components/Loader/Loader';
 
-export const Home = (props) => {
-    //console.log(props.github);
-    const {loading, users} = props.github;
-    const {alert, hideAlert} = props;
+const Home = ({github, alert, hideAlert, getUser, getRepos}) => {
+    const {loading, users} = github;
 
     const userClickHandler = (user) => {
-        props.getUser(user);
-        props.getRepos(user);
-    }
+        getUser(user);
+        getRepos(user);
+    };
 
     return (
         <div>
@@ -30,7 +28,11 @@ export const Home = (props) => {
                 {loading
                     ?   <div className="col"><Loader /></div>
                     :   users.map(user => (
-                        <div className="col-lg-3 col-md-4 col-sm-6 mb-4" key={user.id} onClick={() => userClickHandler(user.login)}>
+                        <div
+                            className="col-lg-3 col-md-4 col-sm-6 mb-4"
+                            key={user.id}
+                            onClick={() => userClickHandler(user.login)}
+                        >
                             <Card user={user} />
                         </div>
                     ))
@@ -38,4 +40,6 @@ export const Home = (props) => {
             </div>
         </div>
     )
-}
+};
+
+export default Home;

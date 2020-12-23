@@ -1,41 +1,48 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import {Link, useParams} from 'react-router-dom';
 import {Repos} from '../components/Repos/Repos';
 import {User} from '../components/User/User';
 import Loader from '../components/Loader/Loader';
 
-export const Profile = (props) => {
-    const fromParamsName = useParams().name;
+const Profile = (props) => {
+  const fromParamsName = useParams().name;
 
-    // если мы здесь, а ничего не грузим - запросить!
-    if (props.github.loading === undefined) {
-        props.getUser(fromParamsName);
-        props.getRepos(fromParamsName);
-        return (<p>Здесь что-то происходит настолько быстро, что есть ли смысл в этом сообщении?</p>)
-    }
+  // поверка перехода из навигации
+  if (props.fromNav) {
+    return (<p>Переход из навигации. Что дальше?..</p>)
+  };
 
-    // репозитории не загружены или их нет
-    const isReposEmpty = !props.github.repos[fromParamsName] || !props.github.repos[fromParamsName].length;
+  // если мы здесь, а ничего не грузим - запросить!
+  if (props.github.loading === undefined) {
+    props.getUser(fromParamsName);
+    props.getRepos(fromParamsName);
+    return (<p>Здесь что-то происходит настолько быстро, что есть ли смысл в этом сообщении?</p>)
+  }
 
-    // раньше здесь была проверка, но теперь она лишняя - просто основной вывод
-    return (
-        <Fragment>
-            { props.github.user[fromParamsName]
-                ? <h1>{props.github.user[fromParamsName].name} profile page</h1>
-                : <h1>*имя пользователя* profile page</h1>
-            }
+  // репозитории не загружены или их нет
+  const isReposEmpty = !props.github.repos[fromParamsName] || !props.github.repos[fromParamsName].length;
 
-            <Link to="/" className="btn btn-link">вернуться к результатам поиска</Link>
+  // раньше здесь была проверка, но теперь она лишняя - просто основной вывод
+  return (
+    <>
+      { props.github.user[fromParamsName]
+        ? <h1>{props.github.user[fromParamsName].name} profile page</h1>
+        : <h1>*имя пользователя* profile page</h1>
+      }
 
-            {props.github.user[fromParamsName]
-                ? (<User user={props.github.user[fromParamsName]} />)
-                : (<Loader />)
-            }
+      <Link to="/" className="btn btn-link">вернуться к результатам поиска</Link>
 
-            {!isReposEmpty
-                ? (<Repos repos={props.github.repos[fromParamsName]} />)
-                : (<Loader />)
-            }
-        </Fragment>
-    )        
-}
+      {props.github.user[fromParamsName]
+        ? (<User user={props.github.user[fromParamsName]} />)
+        : (<Loader />)
+      }
+
+      {!isReposEmpty
+        ? (<Repos repos={props.github.repos[fromParamsName]} />)
+        : (<Loader />)
+      }
+    </>
+  )    
+};
+
+export default Profile;

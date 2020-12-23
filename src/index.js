@@ -1,14 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.scss';
-import App from './containers/appContainer';
-import {register} from './serviceWorker';
 import {createStore, compose, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
-import rootReducer from './reducers/rootReducer';
 import thunk from 'redux-thunk';
+import App from './containers/appContainer';
+import rootReducer from './reducers/rootReducer';
+import './index.scss';
 
-// подключаю devtools и thunk как в react-quiz3 (был простой способ включения devtools)
+// devtools и thunk как в react-quiz3
 // необходимо установить расширение браузера: https://github.com/zalmoxisus/redux-devtools-extension
 const composeEnhancers =
   typeof window === 'object' &&
@@ -23,13 +22,10 @@ const store = createStore(
   )
 );
 
-
-// оборачиваем App в Provider, передаём Store
 const app = (
-    <Provider store={store}>
-        <App />
-    </Provider>
-)
+  <Provider store={store}>
+    <App />
+  </Provider>
+);
 
 ReactDOM.render(app, document.getElementById('root'));
-register();
