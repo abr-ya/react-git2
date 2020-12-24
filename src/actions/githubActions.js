@@ -1,4 +1,4 @@
-import {GET_USERS, CLEAR_USERS, GET_USER, GET_REPOS, SET_LOADING} from './actionTypes';
+import {GET_TOP_JS, GET_USERS, CLEAR_USERS, GET_USER, GET_REPOS, SET_LOADING} from './actionTypes';
 import axios from 'axios';
 
 //создание и тест переменных окружения
@@ -13,20 +13,33 @@ const withCreds = url => {
 }
 
 // для работы асинхронного экшена нужны thunk + вложенный dispatch!))
+
+// 10 самых-самых JS
+export const getTopJS = () => {
+  return async (dispatch) => {
+    dispatch({type: SET_LOADING}) // лоадер
+    const response = await axios.get(
+      withCreds('https://api.github.com/search/repositories?q=language:javascript&sort=stars&order=desc&per_page=10')
+    );
+    if (response.data) {
+      console.log(response.data.items);
+      dispatch ({type: GET_TOP_JS, payload: response.data.items}); 
+    } else {
+      console.log('error!');
+    }
+  }
+};
+
 // получаем пользователей по запросу
 export const getUsers = name => {
   return async (dispatch) => {
     dispatch({type: SET_LOADING}) // лоадер
     const response = await axios.get(
       withCreds(`https://api.github.com/search/users?q=${name}`)
-    ); 
-
-    dispatch ({
-      type: GET_USERS,
-      payload: response.data.items,
-    })    
+    );
+    dispatch ({type: GET_USERS, payload: response.data.items});   
   }
-}
+};
 
 // чистим пользователей
 export const clearUsers = () => ({type: CLEAR_USERS});

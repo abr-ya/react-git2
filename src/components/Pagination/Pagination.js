@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import cn from 'classnames';
-import './Pagination.scss';
+import './pagination.scss';
 
 const Pagination = ({active, pages, setActive}) => {
 	//console.log('active', active);
