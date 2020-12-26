@@ -1,13 +1,30 @@
 import React, {useState, useEffect} from 'react';
+import Select from 'react-select';
 import Pagination from '../Pagination/Pagination';
 import ReposOnePage from '../ReposOnePage/ReposOnePage';
-import './Repos.scss';
+import st from './repos.module.scss';
 
 export const Repos = ({repos}) => {
   const [active, setActive] = useState(1);
   const [pages, setPages] = useState(1);
   const [userRepos, setUserRepos] = useState(repos);
-  const [pageRepos, setPageRepos] = useState([]);  
+  const [pageRepos, setPageRepos] = useState([]);
+  
+  const [sorting, setSorting] = useState(null);
+
+  const sortingOptions = [
+    { value: ['stargazers_count', 'desc'], label: 'sort By Stars' },
+    { value: ['name', 'asc'], label: 'sort By Name Up' },
+    { value: ['name', 'desc'], label: 'sort By Name Down' },
+    { value: ['name', 'str_asc'], label: 'sort By Name Up (IgnoreCase)' },
+    { value: ['name', 'str_desc'], label: 'sort By Name Down (IgnoreCase)' },
+  ];
+
+  const sortingHandler = (selectedOption) => {
+    setSorting(selectedOption);
+    console.log(`Option selected:`, selectedOption.value);
+    sortHandler(...selectedOption.value);
+  };
 
   // подготовка страницы при пагинации
   const preparePage = (userRepos, onPage, active) => {
@@ -26,7 +43,7 @@ export const Repos = ({repos}) => {
 
   // сортировка по звёздам - варианты в txt - это старая
   const sortBy = (arr, code, order='asc') => {
-    // eslint-disable-next-line
+    // eslint-disable-next-line array-callback-return
     arr.sort((a, b) => {
       // простая по-возростанию
       if (order === 'asc') {
@@ -44,22 +61,36 @@ export const Repos = ({repos}) => {
     });
   }
 
+  // сортировка, code - признак, order - порядок
   const sortHandler = (code, order) => {
     sortBy(userRepos, code, order);
     setUserRepos(userRepos);
     setPageRepos(preparePage(userRepos, 10, active).pageRepos);
   }
 
+  const sortByStars = () => sortHandler('stargazers_count', 'desc');
+  const sortByNameUp = () => sortHandler('name');
+  const sortByNameDown = () => sortHandler('name', 'desc');
+  const sortByNameUpIgnoreCase = () => sortHandler('name', 'str_asc');
+  const sortByNameDownIgnoreCase = () => sortHandler('name', 'str_desc');
+
   // когда репозитории пользователя есть - покажем их!
   return (
     userRepos ? (
       <>
-        <div className="badge badge-info repos-badge" onClick={() => sortHandler('stargazers_count', 'desc')}>sortByStars</div>
-        <div className="badge badge-primary repos-badge" onClick={() => sortHandler('name')}>sortByName Up</div>
-        <div className="badge badge-primary repos-badge" onClick={() => sortHandler('name', 'desc')}>sortByName Down</div>
-        <div className="badge badge-info repos-badge" onClick={() => sortHandler('name', 'str_asc')}>sortByName Up ignoreCase</div>
-        <div className="badge badge-info repos-badge" onClick={() => sortHandler('name', 'str_desc')}>sortByName Down ignoreCase</div>
+        <div className={`badge badge-info ${st.reposBadge}`} onClick={sortByStars}>sortByStars</div>
+        <div className={`badge badge-primary ${st.reposBadge}`} onClick={sortByNameUp}>sortByName Up</div>
+        <div className={`badge badge-primary ${st.reposBadge}`} onClick={sortByNameDown}>sortByName Down</div>
+        <div className={`badge badge-info ${st.reposBadge}`} onClick={sortByNameUpIgnoreCase}>sortByName Up ignoreCase</div>
+        <div className={`badge badge-info ${st.reposBadge}`} onClick={sortByNameDownIgnoreCase}>sortByName Down ignoreCase</div>
         <Pagination active={active} pages={pages} setActive={setActive} />
+        <Select
+          className={st.select}
+          placeholder={'сортировать...'}
+          value={sorting}
+          onChange={sortingHandler}
+          options={sortingOptions}
+        />
         <ReposOnePage pageRepos={pageRepos} />
       </>
     ) : (
